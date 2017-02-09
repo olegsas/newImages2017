@@ -2,3 +2,6 @@
     list-style: none;
     display:inline-block;
 }
+.modal-content img {
+    padding: 10px;
+}

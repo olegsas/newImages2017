@@ -44,7 +44,7 @@ router.post('/registrate',function(request,response){
             response.status(400).send({err:"Such User unavailable"})
         }else{
             let newUser = new User({username:request.body.username,password:request.body.password,email:request.body.email,private:true});
-            newUser.save(function(err){
+            newUser.save(function(err,user){
                 if(err){
                     response.status(400).send({err:"Some Error with DB"})
                 }else{
@@ -65,7 +65,7 @@ router.post('/checkUser',function(request,response){
             if(err){
                     response.status(400).send({err:"No User find"})
                 }else{
-                    response.status(200).send({username:user.username})
+                    response.status(200).send({username:user.username,isAdmin:user.isAdmin})
                 }
         })
     }else{
@@ -97,15 +97,15 @@ router.post('/getImagesCurrentUser',function(request,response){
 });
 
 router.post('/upload', multipartyMiddleware, function (req, res, next) {
-   
-        if (req.files.image) {
-            cloudinary.uploader.upload(req.files.image.path, function (result) {
+        if (req.files.file) {
+            cloudinary.uploader.upload(req.files.file.path, function (result) {
                 if (result.url) {
                     // req.imageLink = result.url;
                     let image = new Image();
+                    
                     image.public_id = result.public_id;
                     image.url = result.url;
-                    image._owner = req.session._id;
+                    image._owner = req.body.user_id;
                     image.save((error, response) => {
                         res.status(201).json({public_id:result.public_id,url:result.url})
                         
@@ -139,8 +139,8 @@ router.post('/updateUser',function(request,response){
 });
 
 router.post('/getUsersList',function(request,response){
+    let users = [];
     if(!request.session._id){
-        let users = [];
         User.find({"private":false},function(err,data){
             if (err) {
                 response.status(400).send({err:"Error"});
@@ -157,7 +157,26 @@ router.post('/getUsersList',function(request,response){
             if (err) {
                 response.status(400).send({err:"Error"});
             }else{
-                console.log(data.isAdmin)
+                if(data.isAdmin){
+                    User.find({"__v": 0},function(err,result){
+                            result.forEach(function(el){
+                            users.push({username:el.username,_id:el._id,private:el.private,isAdmin:el.isAdmin});
+                            })
+                        response.status(200).send(users);
+                    })
+                }else{
+                    User.find({"private":false},function(err,result){
+                        if (err) {
+                            response.status(400).send({err:"Error"});
+                        }else{
+                                result.forEach(function(el){
+                                    users.push({username:el.username,_id:el._id,private:el.private,isAdmin:el.isAdmin});
+                                }) 
+                            response.status(200).send(users);
+                        }
+                    })
+                }
+                // console.log(data.isAdmin)
             }
         })
     }

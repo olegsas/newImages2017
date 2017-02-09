@@ -4,12 +4,12 @@
           <div class="jumbotron text-center">
             <h2>{{currentUser.username|uppercase}}</h2>
                   <div class="portfolioPhoto text-center"></div>
-
-                  <p>Мой профиль     
-                  <span ng-show="currentUser.private"><input ng-model="currentUser.private" type="checkbox" name="profile" ng-change="changeProfile()" value="private" checked> Private </input></span>
-                  <span ng-show="!currentUser.private"><input ng-model="currentUser.private" type="checkbox" name="profile" value="public" ng-change="changeProfile()" >Public</input></span>
+                  <div ng-show="thisUser">
+                  <p>Мой профиль  
+                      <span ng-show="currentUser.private"><input ng-model="currentUser.private" type="checkbox" name="profile" ng-change="changeProfile()" value="private" checked> Private </input></span>
+                      <span ng-show="!currentUser.private"><input ng-model="currentUser.private" type="checkbox" name="profile" value="public" ng-change="changeProfile()" >Public</input></span>
                   </p>
-      
+                  </div>
           </div>
         </div>
         
@@ -17,15 +17,15 @@
           <div class="jumbotron text-center ">
               <ul class="ulImages">
                 <li class='images thumbnail' ng-repeat="image in images">
-                  <img ng-src="{{image.url}}" ng-click="openModal(image.url)"><span class="glyphicon glyphicon-remove" ng-click="deleteImage($index)"></span>
+                  <img ng-src="{{image.url}}" ng-click="openModal(image.url)"><span class="glyphicon glyphicon-remove" ng-click="deleteImage($index)" ng-show="thisUser"></span>
                 </li>
               </ul>
-          
+              <div ng-show="thisUser">
               <h4>Выберите файл для загрузки</h4>
               <button ng-model="picFile" ngf-select="uploadFiles($files, $invalidFiles)" multiple
                     accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">Обзор</button>
               <br><br>
-           
+              </div>
           </div>
         </div> 
     </div>  

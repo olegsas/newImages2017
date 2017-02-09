@@ -1,10 +1,13 @@
 angular.module('app')
 
-.controller('homeIdCtrl',function($http,$scope,$location,$routeParams,Upload,$timeout){
-    let token = window.localStorage.getItem('jwt');
-    if(token == null){
-        $location.path('/login');
-    }else{
+.controller('homeIdCtrl',function($http,$scope,$location,$routeParams,Upload,$timeout,$uibModal){
+    // let token = window.localStorage.getItem('jwt');
+    // if(token == null){
+    //     $location.path('/login');
+    // }else{
+        let token = window.localStorage.getItem('jwt');
+        $scope.thisUser = false;
+
         let userId = $routeParams;
     $http.post('/getCurrentUser',userId)
         .then(function(data){
@@ -16,6 +19,18 @@ angular.module('app')
                 $scope.images = data.data;
             })
        })
+       .then(function(){
+           if(token == null){
+               $scope.thisUser = false;
+               }else{
+                        $http.post('/checkUser',{token:token})
+                            .then(function(data){
+                                if((data.data.isAdmin == true)||($scope.currentUser.username == data.data.username)){
+                                    $scope.thisUser = true;
+                                }
+                        })
+               }
+       })
 
     $scope.uploadFiles = function(files, errFiles) {
         $scope.files = files;
@@ -23,7 +38,8 @@ angular.module('app')
         angular.forEach(files, function(file) {
             file.upload = Upload.upload({
                 url: '/upload',
-                data: {image: file}
+                data: {"user_id":$scope.currentUser._id},
+                file: file                
             });
             
             file.upload.then(function (response) {
@@ -40,6 +56,13 @@ angular.module('app')
         });
     }; 
 
+    $scope.openModal = function(image){
+        var modalInstance = $uibModal.open({
+            size:'md',
+            template: '<img ng-src="'+image+'" ></image>'
+        })
+    };
+
       $scope.deleteImage = function($index){
         $http.delete('/home/image/'+$scope.images[$index].id)
             .success(function(){
@@ -50,5 +73,5 @@ angular.module('app')
         $scope.changeProfile = function(){
             $http.post('/updateUser',$scope.currentUser)
         };
-    }
+    // }
 })
