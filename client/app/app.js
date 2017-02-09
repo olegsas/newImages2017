@@ -29,49 +29,27 @@ angular.module('app',['ngRoute','ngFileUpload','ngAnimate', 'ngSanitize', 'ui.bo
     .otherwise({redirectTo: '/home'});
 })
 
-// .factory('auth',function(){
-//     let login={};
-
-//     login.isLogin = function(){
-//         let token = window.localStorage.getItem('jwt');
-//         if(token){
-//             return true;
-//         }else{
-//             return false;
-//         }
-//     }
-//     return login;
-// })
-
 .service('auth',function(){
     this.isLogin = false;
     this.login = function(){
-        //  this.isLogin = true;
-        //  console.log(this.isLogin)
-        return true;
+         this.isLogin = true;
     }
     this.logout = function(){
-        // this.isLogin = false;
-        //  console.log(this.isLogin)
-        return false;
+        this.isLogin = false;
     }
    
 })
 
+.run(['$rootScope','$location','auth','$routeParams',
+    function($rootScope,$location,auth,$routeParams){
+        $rootScope.$on('$routeChangeStart',function(event, next, current){
+        })
+}])
 
-.controller('myCtrl',function($http,$scope,$location,$uibModal,$rootScope,auth){
-    
-    $scope.isLogin = auth.login();
+.controller('myCtrl',function($http,$scope,$location,$uibModal,$rootScope,auth,$routeParams){
 
-   
-    // $scope.$watch('auth.isLogin',function(newValue, oldValue){
-    //     $scope.isLogin = newValue;
-    // },true)
-    
-    
-    
-    
-
-    console.log($scope.isLogin)
-    
+        $scope.$on('$routeChangeSuccess',function(event, previous, current){
+            $scope.isLogin = auth.isLogin;
+        })
 })
+    
