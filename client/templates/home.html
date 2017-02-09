@@ -1,1 +1,9 @@
 home
+
+{{username}}
+
+<ul>
+    <li ng-repeat="image in images">
+        <img ng-src="{{image.url}}" ><span class="glyphicon glyphicon-remove"></span>
+    </li>
+</ul>

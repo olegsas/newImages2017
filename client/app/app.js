@@ -1,4 +1,4 @@
-angular.module('app',['ngRoute'])
+angular.module('app',['ngRoute','ngAnimate', 'ngSanitize', 'ui.bootstrap'])
 
 .config(function($routeProvider, $locationProvider){
     $routeProvider
@@ -18,6 +18,5 @@ angular.module('app',['ngRoute'])
         templateUrl:'../templates/home.html',
         controller:'homeCtrl'
     })
-    .otherwise({redirectTo: '/login'});
-    // $locationProvider.html5Mode(true);
+    .otherwise({redirectTo: '/home'});
 })
