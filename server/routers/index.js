@@ -58,8 +58,23 @@ router.post('/registrate',function(request,response){
     })
 });
 
+router.post('/checkUser',function(request,response){
+
+    if ('"'+request.session.token+'"' == request.body.token.toString()){
+        User.findOne({_id: request.session._id},function(err,user){
+            if(err){
+                    response.status(400).send({err:"No User find"})
+                }else{
+                    response.status(200).send({username:user.username})
+                }
+        })
+    }else{
+        response.status(500).send({err:"You need to logout and login again"})
+    }
+})
+
 router.post('/getCurrentUser',function(request,response){
-    User.findOne({_id:request.session._id},function(err,user){
+    User.findOne({username:request.body.userId},function(err,user){
         if(err){
             response.status(400).send({err:"Error"});
         }
@@ -69,7 +84,7 @@ router.post('/getCurrentUser',function(request,response){
 
 router.post('/getImagesCurrentUser',function(request,response){
     var currentImagesArray = [];
-    Image.find({"_owner":request.session._id},function(err,data){
+    Image.find({"_owner":request.body._id},function(err,data){
         if (err){
             response.status(400).send({err:"Error"});
         }else{
@@ -79,7 +94,49 @@ router.post('/getImagesCurrentUser',function(request,response){
             response.json(currentImagesArray)
         }
     })  
-})
+});
+
+router.post('/upload', multipartyMiddleware, function (req, res, next) {
+   
+        if (req.files.image) {
+            cloudinary.uploader.upload(req.files.image.path, function (result) {
+                if (result.url) {
+                    // req.imageLink = result.url;
+                    let image = new Image();
+                    image.public_id = result.public_id;
+                    image.url = result.url;
+                    image._owner = req.session._id;
+                    image.save((error, response) => {
+                        res.status(201).json({public_id:result.public_id,url:result.url})
+                        
+                    })
+                } else {
+                    res.json(error);
+                }
+            });
+        } else {
+            next();
+        }
+    });
+
+router.delete('/home/image/:id',function(request,response){
+    Image.remove({'public_id':request.params.id},function(){
+        cloudinary.api.delete_resources([request.params.id],
+            function(result){
+                response.status(200).send(true);
+            });
+    })
+});
+
+router.post('/updateUser',function(request,response){
+    User.findByIdAndUpdate(request.body._id,{ $set: { private: request.body.private }}, { new: true },function(err,data){
+        if (err) {
+            response.status(400).send({err:"Error"});
+        }else{
+            response.status(200).send(true);
+        }
+    })
+});
 
 router.post('/logout',function(request,response){
     request.session._id = null;

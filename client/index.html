@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="app" lang="en">
+<html ng-app="app" lang="en" ng-controller="myCtrl">
     <head>
         <title>NewInsta</title>
         <meta charset="UTF-8">
@@ -13,8 +13,8 @@
         <script src="js/angular-animate.min.js"> </script>
         <script src="js/angular-touch.min.js"> </script>
         <script src="js/angular-sanitize.min.js"> </script>
-        <!--<script src="node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
-        <script src="node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>-->
+        <script src="node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+        <script src="node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
         <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
         <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script> 
 
@@ -23,7 +23,9 @@
         <script src="app/controllers/login.js"></script>
         <script src="app/controllers/logout.js"></script>
         <script src="app/controllers/registration.js"></script>
+        <script src="app/controllers/users.js"></script>
         <script src="app/controllers/home.js"></script>
+        <script src="app/controllers/homeId.js"></script>
 
         
     </head>
@@ -32,6 +34,7 @@
          <div class="container">
              <div class="collapse navbar-collapse">
                 <a class="navbar-brand" href="#/home">NewInsta</a>
+                <a class="navbar-brand" href="#/users" style="margin-left:30px">Users</a>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#/registrate">Registrate</a></li>
                     <li><a href="#/login">Login</a></li>

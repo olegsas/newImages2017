@@ -6,7 +6,7 @@ angular.module('app')
         $http.post('/login',user)
             .then(function(data){
                 window.localStorage['jwt'] = angular.toJson(data.data.token);
-                $location.path('/home')
+                $location.path('/home/'+user.username)
             })
             .catch(function(err){
                 var modalInstance = $uibModal.open({
