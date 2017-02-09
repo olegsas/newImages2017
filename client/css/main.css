@@ -2,6 +2,10 @@
     list-style: none;
     display:inline-block;
 }
+
+
 .modal-content img {
-    padding: 10px;
+    height: 100%;
+    width: 100%;
 }
+

@@ -6,7 +6,6 @@ angular.module('app')
         $http.post('/login',user)
             .then(function(data){
                 window.localStorage['jwt'] = angular.toJson(data.data.token);
-                auth.login();
                 $location.path('/home/'+user.username)
             })
             .catch(function(err){

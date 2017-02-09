@@ -1,7 +1,7 @@
 <div >
     <div class="row">
         <div class="col-md-3">
-          <div class="jumbotron text-center">
+          <div class="jumbotron text-center well">
             <h2>{{currentUser.username|uppercase}}</h2>
                   <div class="portfolioPhoto text-center"></div>
                   <div ng-show="thisUser">
@@ -14,10 +14,10 @@
         </div>
         
         <div class="col-md-9">
-          <div class="jumbotron text-center ">
+          <div class="jumbotron text-center well">
               <ul class="ulImages">
                 <li class='images thumbnail' ng-repeat="image in images">
-                  <img ng-src="{{image.url}}" ng-click="openModal(image.url)"><span class="glyphicon glyphicon-remove" ng-click="deleteImage($index)" ng-show="thisUser"></span>
+                  <img ng-src="{{image.url}}" ng-click="openModal(image.url)" ></img><span class="glyphicon glyphicon-remove" ng-click="deleteImage($index)" ng-show="thisUser"></span>
                 </li>
               </ul>
               <div ng-show="thisUser">

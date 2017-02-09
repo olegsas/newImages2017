@@ -29,15 +29,20 @@ angular.module('app',['ngRoute','ngFileUpload','ngAnimate', 'ngSanitize', 'ui.bo
     .otherwise({redirectTo: '/home'});
 })
 
-.service('auth',function(){
-    this.isLogin = false;
-    this.login = function(){
-         this.isLogin = true;
-    }
-    this.logout = function(){
-        this.isLogin = false;
-    }
-   
+.factory('auth',function(){
+    let login ={}
+
+    login.isLogin = function(){
+        let token = window.localStorage.getItem('jwt')
+
+        if (token){
+            return true
+        }else{
+            return false
+        }
+     }
+       
+   return login;
 })
 
 .run(['$rootScope','$location','auth','$routeParams',
@@ -49,7 +54,8 @@ angular.module('app',['ngRoute','ngFileUpload','ngAnimate', 'ngSanitize', 'ui.bo
 .controller('myCtrl',function($http,$scope,$location,$uibModal,$rootScope,auth,$routeParams){
 
         $scope.$on('$routeChangeSuccess',function(event, previous, current){
-            $scope.isLogin = auth.isLogin;
+            $scope.isLogin = auth.isLogin();
+            console.log($scope.isLogin)
         })
 })
     

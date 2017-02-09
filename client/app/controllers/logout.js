@@ -4,7 +4,6 @@ angular.module('app')
     $http.post('/logout')
         .then(function(data){
             window.localStorage.removeItem('jwt');
-            auth.logout();
             $location.path('/login')
         })
         .catch(function(err){
