@@ -1,2 +1,4 @@
-
-
+.images {
+    list-style: none;
+    display:inline-block;
+}

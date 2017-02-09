@@ -1,9 +1,33 @@
-home
+<div >
+    <div class="row">
+        <div class="col-md-3">
+          <div class="jumbotron text-center">
+            <h2>{{username|uppercase}}</h2>
+                  <div class="portfolioPhoto text-center"></div>
 
-{{username}}
-
-<ul>
-    <li ng-repeat="image in images">
-        <img ng-src="{{image.url}}" ><span class="glyphicon glyphicon-remove"></span>
-    </li>
-</ul>
+                  <p>Мой профиль     
+                  <span ng-show="profile"><input ng-model="profile" type="checkbox" name="profile" ng-change="changeProfile()" value="private" checked> Private </input></span>
+                  <span ng-show="!profile"><input ng-model="profile" type="checkbox" name="profile" value="public" ng-change="changeProfile()" >Public</input></span>
+                  </p>
+      
+          </div>
+        </div>
+        
+        <div class="col-md-9">
+          <div class="jumbotron text-center ">
+              <ul class="ulImages">
+                <li class='images' ng-repeat="image in images">
+                  <img ng-src="{{image.url}}" ng-click="openModal(image.url)"><span class="glyphicon glyphicon-remove" ng-click="deleteImage($index)"></span>
+                </li>
+              </ul>
+          
+              <h4>Выберите файл для загрузки</h4>
+              <button ng-model="picFile" ngf-select="uploadFiles($files, $invalidFiles)" multiple
+                    accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">Обзор</button>
+              <br><br>
+           
+          </div>
+        </div> 
+    </div>  
+             
+</div>
