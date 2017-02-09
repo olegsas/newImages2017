@@ -1,6 +1,6 @@
 angular.module('app')
 
-.controller('homeIdCtrl',function($http,$scope,$location,$routeParams,Upload,$timeout,$uibModal){
+.controller('homeIdCtrl',function($http,$scope,$location,$routeParams,Upload,$timeout,$uibModal,auth){
     // let token = window.localStorage.getItem('jwt');
     // if(token == null){
     //     $location.path('/login');

@@ -1,11 +1,12 @@
 angular.module('app')
 
-.controller('loginCtrl',function($http,$scope,$location,$uibModal){
+.controller('loginCtrl',function($http,$scope,$location,$uibModal,auth){
    
     $scope.login = function(user){
         $http.post('/login',user)
             .then(function(data){
                 window.localStorage['jwt'] = angular.toJson(data.data.token);
+                auth.login();
                 $location.path('/home/'+user.username)
             })
             .catch(function(err){

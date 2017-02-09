@@ -1,9 +1,10 @@
 angular.module('app')
 
-.controller('logoutCtrl',function($http,$scope,$location,$uibModal){
+.controller('logoutCtrl',function($http,$scope,$location,$uibModal,auth){
     $http.post('/logout')
         .then(function(data){
             window.localStorage.removeItem('jwt');
+            auth.logout();
             $location.path('/login')
         })
         .catch(function(err){

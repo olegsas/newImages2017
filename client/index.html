@@ -36,9 +36,9 @@
                 <a class="navbar-brand" href="#/home">NewInsta</a>
                 <a class="navbar-brand" href="#/users" style="margin-left:30px">Users</a>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#/registrate">Registrate</a></li>
-                    <li><a href="#/login">Login</a></li>
-                    <li><a href="#/logout">Logout</a></li>
+                    <li ng-show="!isLogin"><a href="#/registrate">Registrate</a></li>
+                    <li ng-show="!isLogin"><a href="#/login">Login</a></li>
+                    <li ng-show="isLogin"><a href="#/logout">Logout</a></li>
                 </ul>
              </div>
          </div>

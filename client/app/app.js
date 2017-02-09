@@ -29,6 +29,49 @@ angular.module('app',['ngRoute','ngFileUpload','ngAnimate', 'ngSanitize', 'ui.bo
     .otherwise({redirectTo: '/home'});
 })
 
-.controller('myCtrl',function($http,$scope,$location,$uibModal){
+// .factory('auth',function(){
+//     let login={};
+
+//     login.isLogin = function(){
+//         let token = window.localStorage.getItem('jwt');
+//         if(token){
+//             return true;
+//         }else{
+//             return false;
+//         }
+//     }
+//     return login;
+// })
+
+.service('auth',function(){
+    this.isLogin = false;
+    this.login = function(){
+        //  this.isLogin = true;
+        //  console.log(this.isLogin)
+        return true;
+    }
+    this.logout = function(){
+        // this.isLogin = false;
+        //  console.log(this.isLogin)
+        return false;
+    }
+   
+})
+
+
+.controller('myCtrl',function($http,$scope,$location,$uibModal,$rootScope,auth){
+    
+    $scope.isLogin = auth.login();
+
+   
+    // $scope.$watch('auth.isLogin',function(newValue, oldValue){
+    //     $scope.isLogin = newValue;
+    // },true)
+    
+    
+    
+    
+
+    console.log($scope.isLogin)
     
 })
