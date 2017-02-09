@@ -1,6 +1,9 @@
-users
 
-<ul class="list-group">
-  <li class="list-group-item" ng-repeat=""></li>
+<div class="container">
   
-</ul>
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="user in users"><a href="#/home/{{user.username}}"> {{user.username|uppercase}}</a></li>
+        
+    </ul>
+</div>
+

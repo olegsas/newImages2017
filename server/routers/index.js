@@ -138,6 +138,31 @@ router.post('/updateUser',function(request,response){
     })
 });
 
+router.post('/getUsersList',function(request,response){
+    if(!request.session._id){
+        let users = [];
+        User.find({"private":false},function(err,data){
+            if (err) {
+                response.status(400).send({err:"Error"});
+            }else{
+                    data.forEach(function(el){
+                        users.push({username:el.username,_id:el._id,private:el.private,isAdmin:el.isAdmin});
+                    }) 
+                response.status(200).send(users);
+            }
+        })
+        
+    }else{
+        User.findOne({_id:request.session._id},function(err,data){
+            if (err) {
+                response.status(400).send({err:"Error"});
+            }else{
+                console.log(data.isAdmin)
+            }
+        })
+    }
+});
+
 router.post('/logout',function(request,response){
     request.session._id = null;
     request.session.token = null;
